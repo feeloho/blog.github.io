@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="泰山的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="frp 的使用及配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="frp">
+<meta property="og:url" content="http://www.qazhe.com/2018/09/27/frp/index.html">
+<meta property="og:site_name" content="泰山的博客">
+<meta property="og:description" content="frp 的使用及配置">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-27T06:22:21.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="frp">
+<meta name="twitter:description" content="frp 的使用及配置">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.qazhe.com/2018/09/27/frp/"/>
+
+
+
+
+
+  <title>frp | 泰山的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?572a1e8bdb78c881aff61a385bb54a2b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">泰山的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-favorites">
+          <a href="/preview/favorites.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            favorites
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.qazhe.com/2018/09/27/frp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="泰山">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="泰山的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">frp</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-27T14:07:00+08:00">
+                2018-09-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>frp 的使用及配置<br><a id="more"></a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>frp是中国开发者fatedier的作品，先看介绍<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frp 是一个高性能的反向代理应用，可以帮助您轻松地进行内网穿透，对外网提供服务，支持 tcp, udp, http, https 等协议类型，并且 web 服务支持根据域名进行路由转发。</span><br></pre></td></tr></table></figure></p>
+<p>之前一直在路由器上使用ngrok，所以对frp一无所知。做渗透测试，需要NAT穿透，所以一直在找好用的工具，磨刀不误砍柴工。<br>尝试之后发现，frp用法和ngrok相似，但是frp比ngrok更加优秀。<br>配置过程很简单，但是也遇到一些问题，所以把过程记录下来。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>GitHub: <a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a> 下载对应操作系统版本</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="server端-查看帮助"><a href="#server端-查看帮助" class="headerlink" title="server端 查看帮助"></a>server端 查看帮助</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@gorgiaxx:~<span class="comment"># frps -h</span></span><br><span class="line">frps is the server of frp</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line">    frps [-c config_file] [-L log_file] [--<span class="built_in">log</span>-level=&lt;log_level&gt;] [--addr=&lt;bind_addr&gt;]</span><br><span class="line">    frps [-c config_file] --reload</span><br><span class="line">    frps -h | --<span class="built_in">help</span></span><br><span class="line">    frps -v | --version</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">    -c config_file            <span class="built_in">set</span> config file</span><br><span class="line">    -L log_file               <span class="built_in">set</span> output <span class="built_in">log</span> file, including console</span><br><span class="line">    --<span class="built_in">log</span>-level=&lt;log_level&gt;   <span class="built_in">set</span> <span class="built_in">log</span> level: debug, info, warn, error</span><br><span class="line">    --addr=&lt;bind_addr&gt;        listen addr <span class="keyword">for</span> client, example: 0.0.0.0:7000</span><br><span class="line">    --reload                  reload ini file and configures <span class="keyword">in</span> common section won<span class="string">'t be changed</span></span><br><span class="line"><span class="string">    -h --help                 show this screen</span></span><br><span class="line"><span class="string">    -v --version              show version</span></span><br></pre></td></tr></table></figure>
+<p>支持读取配置文件，所以我们直接看配置文件。作者给出的配置文件示例已经写的很详细了。所以配置起来非常方便</p>
+<p>配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line"><span class="comment"># 支持IPv6，但是大陆网络情况下几乎不支持。这里填我们的IPv4地址，隧道端口7000</span></span><br><span class="line">bind_addr = 45.32.42.185</span><br><span class="line">bind_port = 7000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个就是http代理的端口，不要和nginx冲突，否则直接闪退。</span></span><br><span class="line">vhost_http_port = 8000</span><br><span class="line">vhost_https_port = 8443</span><br><span class="line"></span><br><span class="line"><span class="comment"># 控制面板的访问端口，在这里我们可以看到隧道的使用情况</span></span><br><span class="line">dashboard_port = 7500</span><br><span class="line"></span><br><span class="line"><span class="comment"># 控制面板访问控制，请修改默认密码</span></span><br><span class="line">dashboard_user = your_name</span><br><span class="line">dashboard_pwd = your_password</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志记录路径，控制面板也能访问</span></span><br><span class="line">log_file = /var/<span class="built_in">log</span>/frps.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志级别，可选debug, info, warn, error。这里只需要warn，免得占空间。</span></span><br><span class="line">log_level = warn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志记录时间，不知道是不是支持自动清理，记录下warn日志就够了，也不需要清理。我觉得没必要记录warn以下的信息，就不管了</span></span><br><span class="line">log_max_days = 3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 特权模式，开启之后，支持客户端预配置，也就是不用在服务端单独配置服务，为了示范，我还是下面加一点服务端预配置参数</span></span><br><span class="line">privilege_mode = <span class="literal">true</span></span><br><span class="line">privilege_token = your_privilege_token</span><br><span class="line"></span><br><span class="line"><span class="comment"># 心跳包配置，默认30秒，超时应该就断开连接了</span></span><br><span class="line">heartbeat_timeout = 30</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设定端口范围，特权模式下端口是客户端决定的，所以要在服务端做好限制，以免影响正常服务</span></span><br><span class="line">privilege_allow_ports = 2000-3000,3001,3003,4000-50000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最大连接数</span></span><br><span class="line">max_pool_count = 100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 认证超时</span></span><br><span class="line">authentication_timeout = 60</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子域名的根域名，就这样翻译吧</span></span><br><span class="line">subdomain_host = gorgiaxx.me</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个用作metasploit的reverse_tcp穿透，配好token就好</span></span><br><span class="line">[rev]</span><br><span class="line"><span class="built_in">type</span> = tcp</span><br><span class="line">auth_token = gorgiaxx</span><br><span class="line">bind_addr = 0.0.0.0</span><br><span class="line"><span class="comment"># ！！！注意，这里一定要看服务商是否把端口过滤了。vultr把4444端口过滤了害我折腾半天。</span></span><br><span class="line">listen_port = 4444</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个来代理web服务，用来传输payload</span></span><br><span class="line">[web]</span><br><span class="line"><span class="comment"># 如果要用http代理，必须至少在前面设定vhost_http_port这个参数。</span></span><br><span class="line"><span class="built_in">type</span> = http</span><br><span class="line">auth_token = gorgiaxx</span><br><span class="line"><span class="comment"># 子域名，最后的访问域名就是frp.gorgiaxx.me</span></span><br><span class="line">subdomain = frp</span><br></pre></td></tr></table></figure></p>
+<h3 id="Client端-查看帮助"><a href="#Client端-查看帮助" class="headerlink" title="Client端 查看帮助"></a>Client端 查看帮助</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">～$ frpc -h</span><br><span class="line">frpc is the client of frp</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line">    frpc [-c config_file] [-L log_file] [--<span class="built_in">log</span>-level=&lt;log_level&gt;] [--server-addr=&lt;server_addr&gt;]</span><br><span class="line">    frpc -h | --<span class="built_in">help</span></span><br><span class="line">    frpc -v | --version</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">    -c config_file              <span class="built_in">set</span> config file</span><br><span class="line">    -L log_file                 <span class="built_in">set</span> output <span class="built_in">log</span> file, including console</span><br><span class="line">    --<span class="built_in">log</span>-level=&lt;log_level&gt;     <span class="built_in">set</span> <span class="built_in">log</span> level: debug, info, warn, error</span><br><span class="line">    --server-addr=&lt;server_addr&gt; addr <span class="built_in">which</span> frps is listening <span class="keyword">for</span>, example: 0.0.0.0:7000</span><br><span class="line">    -h --<span class="built_in">help</span>                   show this screen</span><br><span class="line">    --version                   show version</span><br></pre></td></tr></table></figure>
+<p>配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line"><span class="comment"># 服务器端口和地址</span></span><br><span class="line">server_addr = 45.32.42.185</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过http代理访问，一般情况下用不到</span></span><br><span class="line"><span class="comment"># http_proxy = http://user:pwd@192.168.1.128:8080</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志路径，客户端访问这个要root权限，后面加sudo运行吧。</span></span><br><span class="line">log_file = /var/<span class="built_in">log</span>/frpc.log</span><br><span class="line">log_level = warn</span><br><span class="line">log_max_days = 3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务指定给用户的token</span></span><br><span class="line">auth_token = gorgiaxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 特权的token</span></span><br><span class="line">privilege_token = your_token</span><br><span class="line"></span><br><span class="line">[rev]</span><br><span class="line"><span class="comment"># tcp | http, default is tcp</span></span><br><span class="line"><span class="built_in">type</span> = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 4444</span><br><span class="line"><span class="comment"># 加密通信，暂时不需要</span></span><br><span class="line">use_encryption = <span class="literal">false</span></span><br><span class="line"><span class="comment"># 不是http的情况下，gzip压缩也不要</span></span><br><span class="line">use_gzip = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">[pre_rev]</span><br><span class="line"><span class="comment"># 预配置</span></span><br><span class="line">privilege_mode = <span class="literal">true</span></span><br><span class="line"><span class="built_in">type</span> = tcp</span><br><span class="line">local_ip = 0.0.0.0</span><br><span class="line">local_port = 5555</span><br><span class="line"><span class="comment"># 远程端口</span></span><br><span class="line">remote_port = 5555</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line"><span class="built_in">type</span> = http</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 8080</span><br><span class="line">use_gzip = <span class="literal">true</span></span><br><span class="line">pool_count = 20</span><br><span class="line"><span class="comment"># 可以设定访问控制</span></span><br><span class="line"><span class="comment"># http_user = admin</span></span><br><span class="line"><span class="comment"># http_pwd = admin</span></span><br><span class="line"><span class="comment"># 子域名，最后就是frp.gorgiaxx.me</span></span><br><span class="line">subdomain = frp</span><br></pre></td></tr></table></figure></p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>frp权限控制做的比较好，不怕端口暴露在公网。所以可以放心常驻后台</p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup frps -c /etc/frps.ini &amp;</span><br></pre></td></tr></table></figure>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup frps -c /etc/frps.ini &amp;</span><br></pre></td></tr></table></figure>
+<h3 id="Dashboard"><a href="#Dashboard" class="headerlink" title="Dashboard"></a>Dashboard</h3><p>直接浏览器访问 <a href="http://gorgiaxx.me:7500/" target="_blank" rel="noopener">http://gorgiaxx.me:7500/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/26/mysql8-install/" rel="next" title="MySQL 8.0 在Windows zip 安装过程">
+                <i class="fa fa-chevron-left"></i> MySQL 8.0 在Windows zip 安装过程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/29/nginx-config/" rel="prev" title="nginx-config">
+                nginx-config <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="泰山" />
+            
+              <p class="site-author-name" itemprop="name">泰山</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/79534505" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="79534505@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                不妨看看吧
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/79534505" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#server端-查看帮助"><span class="nav-number">3.1.</span> <span class="nav-text">server端 查看帮助</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Client端-查看帮助"><span class="nav-number">3.2.</span> <span class="nav-text">Client端 查看帮助</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">4.</span> <span class="nav-text">启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">4.1.</span> <span class="nav-text">服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">4.2.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dashboard"><span class="nav-number">4.3.</span> <span class="nav-text">Dashboard</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">泰山</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/exturl.js?v=5.1.4"></script>
+
+
+</body>
+</html>
