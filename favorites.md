@@ -83,7 +83,6 @@ i5ting_toc -f sample.md -o
 *   [APKPure](https://apkpure.com/): 直接下载google play商店的应用
 *   [Colorhub](https://colorhub.me/): 高清无版权图片，个人和商业用途免费
 *   [composer-阿里云源](https://developer.aliyun.com/composer)
-*   
 
 ## 其他
 
