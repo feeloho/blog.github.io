@@ -189,36 +189,17 @@ update t_outbreak set type ='other' where id in (SELECT id FROM
 
 ```sql
 待执行
-CREATE TABLE `t_admin_message` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `app_type` char(64) DEFAULT NULL COMMENT '关联表',
-  `app_row_id` int(10) unsigned DEFAULT NULL COMMENT '关联表id',
-  `content` text COMMENT '消息内容',
-  `url` varchar(255) DEFAULT NULL COMMENT '消息链接',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_app_type_app_row_id` (`app_type`,`app_row_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后台消息表';
-CREATE TABLE `t_admin_message_relation` (
-  `app_type` enum('admin','police') NOT NULL DEFAULT 'admin' COMMENT '关联表',
-  `app_row_id` int(10) unsigned NOT NULL COMMENT '关联id',
-  `admin_message_id` int(10) unsigned DEFAULT NULL COMMENT '管理员消息id',
-  `is_read` tinyint(2) unsigned DEFAULT '0' COMMENT '是否已读',
-  KEY `idx_app_type_app_id` (`app_type`,`app_row_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='后台消息关系表';
-INSERT INTO `t_admin_auth`(`auth`, `name`, `parent_id`, `type`, `level`, `url`, `params`, `sort`, `enabled`, `is_active`, `fa_class`, `created_at`, `updated_at`) VALUES ('admin', '重点人员扫码记录', 111, 0, 2, 'OutbreakDoorFocusRecordController@getIndex', '', 0, 1, 0, '', '2020-03-01 20:49:09', '2020-03-01 20:49:09');
-INSERT INTO `t_admin_auth`(`auth`, `name`, `parent_id`, `type`, `level`, `url`, `params`, `sort`, `enabled`, `is_active`, `fa_class`, `created_at`, `updated_at`) VALUES ('police', '重点人员扫码记录', 113, 0, 2, 'OutbreakDoorFocusRecordController@getIndex', '', 0, 1, 0, '', '2020-03-02 00:06:52', '2020-03-02 00:06:52');
+INSERT INTO `t_admin_auth`(`auth`, `name`, `parent_id`, `type`, `level`, `url`, `params`, `sort`, `enabled`, `is_active`, `fa_class`, `created_at`, `updated_at`) VALUES ('police', '辅警岗位列表', 38, 1, 2, 'AuxiliaryPolice\\
+positionController@getIndex', '', 0, 1, 0, '', '2020-03-06 18:42:35', '2020-03-06 18:42:35');
+INSERT INTO `t_admin_auth`(`auth`, `name`, `parent_id`, `type`, `level`, `url`, `params`, `sort`, `enabled`, `is_active`, `fa_class`, `created_at`, `updated_at`) VALUES ('police', '辅警申请列表', 38, 1, 2, 'AuxiliaryPolice\\IndexController@getIndex', '', 0, 1, 0, '', '2020-03-06 17:11:16', '2020-03-06 17:11:16');
+
+
+    "id" => 640992
+    "police_station_id" => 20
+    "guardian" => "[{"name":"王仁波","gender":"1","census_register":"蔡家镇鱼市街10000号","phone":"18996264085","card_photo":"","operator_is_update":"","operator_is_meet_condition":"","operator_query_at":"","operator_query_count":"","operator_query_total":""}]"
+  ]
 ```
 
 
 
-
-
-```php
-1. jumpJxjPage.php 带callback_url
-2. jumpJxjPage 跳转 jxj页面
-3. 
- 
-```
 
