@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <!-- <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen"> -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="stylesheets/simple-calendar.css">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Date</title>
+    <style>
+      #calendar {
+        width: 100%;
+      }
+      .clearfix {
+        margin-bottom: 50px !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h2>小仙女的休息日计算</h2>
+      </div>
+    </header>
+
+    <div class="inner clearfix">
+      <div id = 'calendar'></div>
+    </div>
+
+    <script type="text/javascript" src="javascripts/simple-calendar.js"></script>
+    <script>
+      var options = {
+        width: '500px',
+        height: '500px',
+        language: 'CH', //语言
+        showLunarCalendar: true, //阴历
+        showHoliday: true, //休假
+        showFestival: true, //节日
+        showLunarFestival: true, //农历节日
+        showSolarTerm: true, //节气
+        showMark: true, //标记
+        timeRange: {
+          startYear: 2020,
+          endYear: 2021
+        },
+        mark: {},
+        theme: {
+          changeAble: false,
+          weeks: {
+            backgroundColor: '#FBEC9C',
+            fontColor: '#4A4A4A',
+            fontSize: '20px'
+          },
+          days: {
+            backgroundColor: '#ffffff',
+            fontColor: '#565555',
+            fontSize: '24px'
+          },
+          todaycolor: 'orange',
+          activeSelectColor: 'orange'
+        }
+      }
+      var myCalendar = new SimpleCalendar('#calendar', options);
+      Date.prototype.format = function () {
+        var s = '';
+        var mouth = (this.getMonth() + 1) >= 10
+          ? (this.getMonth() + 1)
+          : ('0' + (
+          this.getMonth() + 1));
+        var day = this.getDate() >= 10
+          ? this.getDate()
+          : ('0' + this.getDate());
+        s += this.getFullYear() + '-'; // 获取年份。
+        s += mouth + "-"; // 获取月份。
+        s += day; // 获取日。
+        return dislodgeZero(s); // 返回日期。
+      };
+
+      // 日期去掉0
+      function dislodgeZero(str) {
+        let strArray = str.split('-');
+        strArray = strArray.map(function (val) {
+          if (val[0] == '0') {
+            return val = val.slice(1);
+          } else {
+            return val;
+          }
+        })
+        return strArray.join('-');
+      }
+
+      var workDay = 2; // 工作天数
+      var workCount = 0; // 工作天数计数
+      var restDay = 1; // 休息天数
+      var restCount = 0; // 休息天数计数
+      var offset = 1; // 偏移量计算
+      var restMark = {};
+      /**
+    * 获取休息日
+    */
+      function getRestDay(begin, end) {
+        var ab = begin.split("-");
+        var ae = end.split("-");
+        var db = new Date();
+        db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);
+        var de = new Date();
+        de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);
+        var unixDb = db.getTime();
+        var unixDe = de.getTime();
+        for (var k = unixDb; k <= unixDe;) {
+          var restDate = (new Date(parseInt(k))).format();
+          if (offset > 0) {
+            restDate = new Date((new Date(restDate)).setDate((new Date(restDate)).getDate() + offset)).format();
+          }
+          if (workDay === workCount) {
+            myCalendar.addMark(restDate, '小仙女今天休息啦~');
+            if (restDay > restCount) {
+              restCount += 1;
+              myCalendar.addMark(restDate, '小仙女今天休息啦~');
+            }
+            workCount = 0;
+          } else {
+            workCount += 1;
+            restCount = 0;
+          }
+          k = k + 24 * 60 * 60 * 1000;
+        }
+        console.log(restMark);
+        options.mark = restMark;
+      }
+      getRestDay(options.timeRange.startYear + "-01-01", options.timeRange.endYear + "-01-01");
+    </script>
+
+  </body>
+</html>
