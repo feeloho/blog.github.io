@@ -4,9 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <!-- <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen"> -->
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <link rel="stylesheet" type="text/css" href="stylesheets/simple-calendar.css">
 
@@ -49,8 +47,8 @@
         showSolarTerm: true, //节气
         showMark: true, //标记
         timeRange: {
-          startYear: 2020,
-          endYear: 2021
+          startYear: (new Date()).getFullYear(),
+          endYear: (new Date()).getFullYear() + 1
         },
         mark: {},
         theme: {
@@ -105,8 +103,8 @@
       var offset = 1; // 偏移量计算
       var restMark = {};
       /**
-    * 获取休息日
-    */
+      * 获取休息日
+      */
       function getRestDay(begin, end) {
         var ab = begin.split("-");
         var ae = end.split("-");
@@ -125,7 +123,7 @@
             myCalendar.addMark(restDate, '小仙女今天休息啦~');
             if (restDay > restCount) {
               restCount += 1;
-              myCalendar.addMark(restDate, '小仙女今天休息啦~');
+             myCalendar.addMark(restDate, '小仙女今天休息啦~');
             }
             workCount = 0;
           } else {
@@ -134,7 +132,6 @@
           }
           k = k + 24 * 60 * 60 * 1000;
         }
-        console.log(restMark);
         options.mark = restMark;
       }
       getRestDay(options.timeRange.startYear + "-01-01", options.timeRange.endYear + "-01-01");
