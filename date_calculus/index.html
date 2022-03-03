@@ -37,8 +37,7 @@
     <script type="text/javascript" src="javascripts/simple-calendar.js"></script>
     <script>
       var options = {
-        width: '500px',
-        height: '500px',
+        width: '350px',
         language: 'CH', //语言
         showLunarCalendar: true, //阴历
         showHoliday: true, //休假
@@ -47,7 +46,7 @@
         showSolarTerm: true, //节气
         showMark: true, //标记
         timeRange: {
-          startYear: (new Date()).getFullYear(),
+          startYear: (new Date()).getFullYear() - 1,
           endYear: (new Date()).getFullYear() + 1
         },
         mark: {},
@@ -100,7 +99,7 @@
       var workCount = 0; // 工作天数计数
       var restDay = 1; // 休息天数
       var restCount = 0; // 休息天数计数
-      var offset = 1; // 偏移量计算
+      var offset = 2; // 偏移量计算
       var restMark = {};
       /**
       * 获取休息日
@@ -112,10 +111,13 @@
         db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);
         var de = new Date();
         de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);
+
         var unixDb = db.getTime();
         var unixDe = de.getTime();
+        console.log("unixDb:" + unixDb + " unixDe: " + unixDe);
         for (var k = unixDb; k <= unixDe;) {
           var restDate = (new Date(parseInt(k))).format();
+          console.log("restDate", restDate);
           if (offset > 0) {
             restDate = new Date((new Date(restDate)).setDate((new Date(restDate)).getDate() + offset)).format();
           }
